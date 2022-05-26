@@ -12,8 +12,10 @@ It uses Real-time Database.
 
 #Illustrations
 
+Add Students' Details Page
 ![image](https://user-images.githubusercontent.com/68000460/170549676-fbf73f19-ac62-4552-8b52-2ac949506af9.png)
 
 
+View Students' Details Page
 
 ![image](https://user-images.githubusercontent.com/68000460/170549744-a8faf8d0-b951-460c-81a0-aa85e1a48902.png)
