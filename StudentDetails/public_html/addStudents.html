@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js"></script>
+    </head>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <label class="navbar-brand" >Student Details</label>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ">
+                <li class="nav-item active ">
+                    <a class="nav-link btn btn-primary btn-warning mx-3" href="addStudents.html">Add Details <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active ">
+                    <a class="nav-link white btn btn-primary btn-warning mx-3" href="viewStudents.html">View Details <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+
+
+    <body>
+
+
+    <center>><h1 class="my-3">Add Details</h1></center>
+
+    <div class="container form-group">
+        <form method="post" id="studentForm" action="">
+            <label class="my-3">Personal Details</label>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="First name" id="sname">
+                </div>
+                <div class="col form-group">
+                    <input type="text" class="form-control" placeholder="Last name" id="lname">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Contact Number" id="sphone" >
+                </div>
+                <div class="col form-group">
+                    <input type="text" class="form-control" placeholder="Age" id="age">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Gender" id="gender">
+                </div>
+                <div class="col form-group">
+                    <input type="text" class="form-control" placeholder="Blood Group" id="bloodGroup">
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Address" id="address">
+            </div>
+            <label class="my-3">Academic Details</label>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Java Score" id="java">
+                </div>
+                <div class="col form-group">
+                    <input type="text" class="form-control" placeholder="Operating System Score" id="os">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Data Structures Score" id="dsa">
+                </div>
+                <div class="col form-group">
+                    <input type="text" class="form-control" placeholder="Computer Networks Score">
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Remarks" id="remarks">
+            </div>
+
+            <center><button type="submit" class="btn btn-primary btn-success px-5 my-3" onclick="addStudent()">Submit</button></center>
+
+
+
+
+    </div>
+    <script>
+        
+//        There are various fields in the form, I will insertion show insertion of selected attributes, as logix for insertion for all the other attributes is also same.
+        
+        
+        $("#sname").focus();
+        function validateAndGetFormData() {
+            var snames = $("#sname").val();
+            if (snames === "") {
+                alert("Required Value");
+                $("#sname").focus();
+                return "";
+            }
+            var sphones = $("#sphone").val();
+            if (sphone === "") {
+                alert("Required Value");
+                $("#sphone").focus();
+                return "";
+            }
+            var semails = $("#semail").val();
+            if (semails === "") {
+                alert("Required Value");
+                $("#semail").focus();
+                return "";
+            }
+            var jsonStrObj = {
+                sname: snames,
+                sphone: sphones,
+                semail: semails,
+            };
+            return JSON.stringify(jsonStrObj);
+        }
+        // This method is used to create PUT Json request.
+        function createPUTRequest(connToken, jsonObj, dbName, relName) {
+            var putRequest = "{\n"
+                    + "\"token\" : \""
+                    + connToken
+                    + "\","
+                    + "\"dbName\": \""
+                    + dbName
+                    + "\",\n" + "\"cmd\" : \"PUT\",\n"
+                    + "\"rel\" : \""
+                    + relName + "\","
+                    + "\"jsonStr\": \n"
+                    + jsonObj
+                    + "\n"
+                    + "}";
+            return putRequest;
+        }
+        function executeCommand(reqString, dbBaseUrl, apiEndPointUrl) {
+            var url = dbBaseUrl + apiEndPointUrl;
+            var jsonObj;
+            $.post(url, reqString, function (result) {
+                jsonObj = JSON.parse(result);
+            }).fail(function (result) {
+                var dataJsonObj = result.responseText;
+                jsonObj = JSON.parse(dataJsonObj);
+            });
+            return jsonObj;
+        }
+        function resetForm() {
+            $("#sname").val("");
+            $("#sphone").val("");
+            $("#semail").val("");
+            $("#sname").focus();
+        }
+        function saveStudent() {
+            var jsonStr = validateAndGetFormData();
+            if (jsonStr === "") {
+                return;
+            }
+            var putReqStr = createPUTRequest("90938995|-31949289843159763|90940854",
+                    jsonStr, "Students", "studentDetails");
+            alert(putReqStr);
+            jQuery.ajaxSetup({async: false});
+            var resultObj = executeCommand(putReqStr,
+                    "http://api.login2explore.com:5577", "/api/iml");
+            alert(JSON.stringify(resultObj));
+            jQuery.ajaxSetup({async: true});
+            resetForm();
+        }
+    </script>
+
+
+
+
+</body>
+</html>
